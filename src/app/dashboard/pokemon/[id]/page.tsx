@@ -12,6 +12,27 @@ interface Props {
   params: Promise<PokemonParams>; // Permite que sea el objeto o una promesa del objeto
 }
 
+// En build time, Next.js no puede generar rutas estáticas para parámetros dinámicos,
+export async function generateStaticParams() {
+
+  // Esta línea crea un array llamado 'static151Pokemons'.
+  // El array tendrá 151 elementos.
+  // Cada elemento será una cadena de texto que representa un número,
+  // desde '1' hasta '151' (ej. ['1', '2', ..., '151']).
+  const static151Pokemons = Array.from({ length: 151 }, (v, i) => `${i + 1}`);
+
+  // Esta línea toma el array 'static151Pokemons' y lo transforma.
+  // Para cada 'id' (que es una cadena de número) en 'static151Pokemons',
+  // crea un nuevo objeto con la propiedad 'id' igual a ese número.
+  // El resultado final es un array de objetos como:
+  // [{ id: '1' }, { id: '2' }, ..., { id: '151' }]
+  // Esto es típico de lo que necesita 'generateStaticParams' en Next.js.
+  return static151Pokemons.map(id => ({
+    id: id
+  }));
+
+}
+
 
 export async function generateMetadata({params}: Props): Promise<Metadata> {
     try {
@@ -35,8 +56,8 @@ const getPokemon = async (id: string): Promise<Pokemon> => {
 
   try {
     const pokemon = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`, {
-      // next : {revalidate: 60 * 60 * 30 * 6}, revalidar esta pantalla cada 6 meses
-      cache: 'force-cache'//TODO cambia en un fituro
+      next : {revalidate: 60 * 60 * 30 * 6}//revalidar esta pantalla cada 6 meses
+      //cache: 'force-cache'//TODO cambia en un fituro
     }).then(res => res.json());
     console.log(pokemon);
     return pokemon;
