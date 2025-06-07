@@ -3,19 +3,27 @@ import { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-interface Props {
-    params:{id:string}
+type PokemonParams = {
+  id: string;
 }
+
+// Modifica tu interfaz Props para aceptar que 'params' puede ser una Promise
+interface Props {
+  params: Promise<PokemonParams>; // Permite que sea el objeto o una promesa del objeto
+}
+
 
 export async function generateMetadata({params}: Props): Promise<Metadata> {
     try {
-        const {id, name} = await getPokemon(params.id);
+        const resolvedParams = await params;
+        const { id, name } = await getPokemon(resolvedParams.id); // Asumiendo getPokemon es async
+    
         return{
             title: `#${id} - ${name}`,
             description : `Información del Pokémon ${name}`,	
         }
       
-    } catch (error) {
+    } catch {
       return {
         title: 'Pagina de pokemon',
         description: 'No encontrada'
@@ -30,17 +38,18 @@ const getPokemon = async (id: string): Promise<Pokemon> => {
       // next : {revalidate: 60 * 60 * 30 * 6}, revalidar esta pantalla cada 6 meses
       cache: 'force-cache'//TODO cambia en un fituro
     }).then(res => res.json());
-    console.log(pokemon.name);
+    console.log(pokemon);
     return pokemon;
     
-  } catch (error) {
+  } catch {
     notFound();
   }
   
 }
 
 export default async function PokemonPage({params}: Props) {
-  const pokemon = await getPokemon(params.id);
+  const resolvedParams = await params;
+  const pokemon = await getPokemon(resolvedParams.id);
     return (
     <div className="flex mt-5 flex-col items-center text-slate-800">
       <div className="relative flex flex-col items-center rounded-[20px] w-[700px] mx-auto bg-white bg-clip-border  shadow-lg  p-3">
