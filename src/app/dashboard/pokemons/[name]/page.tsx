@@ -1,4 +1,4 @@
-import { Pokemon } from "@/pokemons";
+import { Pokemon, PokemonsResponse } from "@/pokemons";
 import { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
@@ -15,9 +15,15 @@ interface Props {
 // En build time, Next.js no puede generar rutas estáticas para parámetros dinámicos,
 export async function generateStaticParams() {
 
-   const staticPokemonNames = ['bulbasaur', 'charmander', 'squirtle']; // O fetch de todos los nombres
-    return staticPokemonNames.map(name => ({
-      name: name // Ahora devuelve objetos con la propiedad 'name'
+  const data:PokemonsResponse = await fetch(`https://pokeapi.co/api/v2/pokemon?&limit=151`)
+      .then(res => res.json());
+  
+    const static151Pokemons = data.results.map(pokemon =>({
+      name: pokemon.name
+    }))
+
+    return static151Pokemons.map( ({name})=> ({
+      name: name
     }));
 
 }
