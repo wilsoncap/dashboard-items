@@ -1,6 +1,6 @@
 
 import Link from "next/link";
-import { IoCafeOutline } from "react-icons/io5"
+
 
 interface Props{
   title: string;
