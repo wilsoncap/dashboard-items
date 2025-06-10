@@ -30,6 +30,8 @@ export const CarCounter = ({value = 10}: Props) => {
 //  }, [dispatch, value]);
 
  useEffect(() => {
+    console.log(value);
+    
     getApiCounter()
         .then( ({ count }) => dispatch(initCounterState(count)));
  }, [dispatch]);
