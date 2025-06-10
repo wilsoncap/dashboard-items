@@ -1,5 +1,9 @@
+
+
 import { SimplePokemon } from '@/pokemons';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
+import { useDispatch, useSelector } from 'react-redux'
+import type { RootState, AppDispatch } from '../index'
 
 interface pokemonState{
     [key:string]: SimplePokemon
@@ -7,7 +11,8 @@ interface pokemonState{
 
 const initialState:pokemonState = {
     '1': {id: '1', name:'bulbasor'},
-    '3': {id: '3', name:'venasaur'}
+    '3': {id: '3', name:'venasaur'},
+    '5': {id: '5', name:'charmaleon'}
 }
 
 const pokemonsSlice = createSlice({
@@ -31,3 +36,7 @@ const pokemonsSlice = createSlice({
 export const {toggleFavorite} = pokemonsSlice.actions
 
 export default pokemonsSlice.reducer
+
+// Use throughout your app instead of plain `useDispatch` and `useSelector`
+export const useAppDispatch = useDispatch.withTypes<AppDispatch>();
+export const useAppSelector = useSelector.withTypes<RootState>();

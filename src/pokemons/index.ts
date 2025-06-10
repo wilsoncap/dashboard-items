@@ -1,4 +1,5 @@
 export {PokemonsGrid} from './componens/PokemonsGrid';
+export {PokemonsGridFavorites} from './componens/PokemonsGridFavorites'
 export {CardPokemont} from './componens/CardPokemont';
 export type {PokemonsResponse} from './interfaces/pokemons-response';
 export type {SimplePokemon} from './interfaces/simple-pokemon';
