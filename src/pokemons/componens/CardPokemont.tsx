@@ -5,7 +5,8 @@ import { SimplePokemon } from "../interfaces/simple-pokemon"
 import React from "react";
 import Link from "next/link";
 import { IoHeart, IoHeartOutline } from "react-icons/io5";
-import { useAppSelector } from "@/store/counter/counterSlice";
+import { useAppDispatch, useAppSelector } from "@/store/counter/counterSlice";
+import { toggleFavorite } from "@/store/pokemons/pokemons";
 
 interface Props {
     pokemon: SimplePokemon;
@@ -22,7 +23,11 @@ miObjeto => {}
 export const CardPokemont = ({pokemon}: Props) => {
 const { id, name } = pokemon;
 const isFavorite = useAppSelector(state => !!state.pokemons[id])
-console.log(isFavorite);
+const dispatch = useAppDispatch();
+
+const onToggle = () => {
+    dispatch(toggleFavorite(pokemon))
+}
 
 
 return (
@@ -47,7 +52,9 @@ return (
             </div>
         </div>
         <div className="border-b">
-            <Link href="/dashboard/main" className="px-4 py-2 hover:bg-gray-100 flex items-center">
+            <div 
+                onClick={onToggle}
+                className="px-4 py-2 hover:bg-gray-100 flex items-center cursor-pointer">
                 <div className="text-red-600">
                     {
                         isFavorite
@@ -66,7 +73,7 @@ return (
                     </p>
                     <p className="text-xs text-gray-500">Click para cambiar</p>
                 </div>
-            </Link>
+            </div>
             
         </div>
     </div>
