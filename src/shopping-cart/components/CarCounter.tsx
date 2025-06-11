@@ -25,10 +25,6 @@ export const CarCounter = ({value = 10}: Props) => {
  const count = useAppSelector((state) => state.counter.count);
  const dispatch = useAppDispatch();
 
-//  useEffect(() => {
-//     dispatch(initCounterState(value));
-//  }, [dispatch, value]);
-
  useEffect(() => {
     console.log(value);
     
