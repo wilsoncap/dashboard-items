@@ -2,22 +2,20 @@
 
 import { useAppSelector } from "@/store/pokemons/pokemons";
 import { PokemonsGrid } from "./PokemonsGrid";
-import { useState } from "react";
 import { IoHeartOutline } from "react-icons/io5";
 
 
 
 export const PokemonsGridFavorites = () => {
 
- const pokemonsFavorite = useAppSelector(state => Object.values(state.pokemons))
- const [pokemons] = useState(pokemonsFavorite)
+ const pokemonsFavorite = useAppSelector(state => Object.values(state.pokemons.favorites))
   return (
     <div className="flex flex-wrap gap-10 items-center justify-center">
         {
           <div className="flex flex-col">
                 {
-                  pokemons.length
-                  ? (<PokemonsGrid pokemons={pokemons} />) 
+                  pokemonsFavorite.length
+                  ? (<PokemonsGrid pokemons={pokemonsFavorite} />) 
                   : (<NoFavorites />)
                 }
                 {/* <PokemonsGrid pokemons={pokemonsFavorite} /> */}
